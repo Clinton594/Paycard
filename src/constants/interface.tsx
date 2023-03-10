@@ -6,27 +6,6 @@ interface IRoutes {
   api: string;
 }
 
-interface ICompany {
-  name: string;
-  logo: string;
-  fee: number;
-  email: string;
-  phone: string;
-  website: string;
-  address: string;
-}
-interface IconList {
-  title: string;
-  icon: string | FunctionComponent<IDimension>;
-}
-interface ILink {
-  url: string;
-  title: string;
-  icon: FunctionComponent<IDimension>;
-  footer?: boolean;
-  props?: IDimension;
-}
-
 interface IObject {
   title: string;
   desc: string;
@@ -44,15 +23,10 @@ interface IDimension {
   color?: string;
 }
 
-
+interface ILaunch {
+  id: string;
+}
 
 type ValueOf<T> = T[keyof T];
 
-export type {
-  IRoutes,
-  ICompany,
-  IMultiObject,
-  IObject,
-  IDimension,
-  
-};
+export type { IRoutes, IMultiObject, IObject, IDimension };

@@ -4,7 +4,7 @@ const routes: IRoutes = {
   home: "/",
   detail: "/detail",
 
-  api: process.env.REACT_APP_API + "/process/custom",
+  api: "https://api.spacexdata.com/v5/launches",
 };
 
 export default routes;

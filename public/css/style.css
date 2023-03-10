@@ -5751,6 +5751,7 @@ body.active-dark-mode .my_switcher button span.dark {
   background-size: cover;
   background-position: 50%;
   padding: 310px 0 0;
+  background-image: url(../img/feature.jpeg);
 }
 @media only screen and (min-width: 1200px) and (max-width: 1599px) {
   .banner.banner-style-5 {
@@ -11563,4 +11564,31 @@ body.op-modal-open {
     padding-bottom: 0;
   }
 }
-/*# sourceMappingURL=main.19d9e8d5.chunk.css.map */
+.preloader {
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000c7;
+}
+.illustration {
+  position: relative;
+  will-change: transform;
+  transform: perspective(2000px) rotateX(15.49deg) rotateY(-2.07deg) scale3d(1, 1, 1);
+}
+
+.main-wrapper[data-variant="detail"] ul.mainmenu > li > a {
+  color: #545252 !important;
+}
+
+.main-wrapper[data-variant="detail"] .axil-header .header-navbar .header-logo .dark-version-logo {
+  display: block;
+}
+.main-wrapper[data-variant="detail"] .axil-header .header-navbar .header-logo .light-version-logo {
+  display: none;
+}

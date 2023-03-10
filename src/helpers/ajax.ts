@@ -2,6 +2,7 @@ import axios from "axios";
 import { IMultiObject } from "../constants/interface";
 import routes from "../constants/routes";
 
+// Custom Error Prototype
 function MyError(this: any, message: string, response: IMultiObject) {
   this.name = "ResponseError";
   this.message = message;
@@ -9,7 +10,7 @@ function MyError(this: any, message: string, response: IMultiObject) {
 }
 MyError.prototype = new Error();
 
-const myaxios = async ({
+const fetch = async ({
   endpoint,
   method = "GET",
   body = {},
@@ -43,4 +44,4 @@ const myaxios = async ({
   }
 };
 
-export { myaxios };
+export { fetch };
