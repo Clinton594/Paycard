@@ -35,7 +35,6 @@ const fetch = async ({
       timeout: 10000,
       data: JSON.stringify(body),
     });
-    if (data.code !== 200) throw new (MyError as any)(data.message, data);
 
     return data;
   } catch (response: any) {

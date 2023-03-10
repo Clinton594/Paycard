@@ -1,28 +1,73 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { PulseLoader } from "react-spinners";
+import { toast } from "react-toastify";
 import Footer from "../components/Footer";
+import LaunchCards from "../components/LaunchCards";
 import Navbar from "../components/Navbar";
 import Page from "../components/Page";
+import { ILaunch } from "../constants/interface";
+import launch from "../constants/launch";
+import routes from "../constants/routes";
 import { fetch } from "../helpers/ajax";
+import { extractLaunchData } from "../helpers/functions";
 
 export default function Home() {
-  const [launches, setLaunches] = useState([]);
+  const [latestLaunch, setLatest] = useState<ILaunch>(launch);
+  const [nextLaunch, setNextLaunch] = useState<ILaunch>(launch);
+  const [launches, setLaunches] = useState<ILaunch[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchAll = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch({ endpoint: "" });
-      console.log(response);
+  const [filter, setFilter] = useState("");
 
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+  const fetchData = async (endpoint: string) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await fetch({ endpoint });
+        resolve(response);
+      } catch (error) {
+        reject(error);
+      }
+    });
   };
 
+  let filtered = launches;
+  if (filter) {
+    const date = new Date(filter);
+    filtered = launches.filter((launch) => {
+      const thisdate = new Date(launch.date_utc);
+      return (
+        thisdate.getDate() === date.getDate() &&
+        thisdate.getFullYear() === date.getFullYear() &&
+        thisdate.getMonth() === date.getMonth()
+      );
+    });
+  } else filtered = launches.filter((x) => x.slides.length);
+
   useEffect(() => {
-    fetchAll();
+    !filtered.length && filter && toast.error("No result found");
+  }, [filtered]);
+
+  useEffect(() => {
+    const endpoints = ["/latest", "/next"];
+    Promise.all(endpoints.map((x) => fetchData(x))).then((result) => {
+      const formatted = result.map((x) => extractLaunchData(x));
+      console.log(formatted);
+
+      setLatest(formatted[0]);
+      setNextLaunch(formatted[1]);
+    });
+
+    fetchData("")
+      .then((response: any) => {
+        const formatted = response.map((x: any) => extractLaunchData(x));
+        formatted.sort((a: ILaunch, b: ILaunch) => b.date_unix - a.date_unix);
+        setLaunches(formatted);
+      })
+      .catch((error) => toast.error(error.message))
+      .finally(() => setLoading(false));
   }, []);
+
   return (
     <Page>
       <Navbar />
@@ -34,56 +79,55 @@ export default function Home() {
               <div className="banner-content">
                 <h1 className="title mb-1">Paycard Space Launch</h1>
                 <h3 className="text-white">Rendering services to Earth orbit, Moon, Mars and beyond.</h3>
-                <div>
-                  <a className="axil-btn btn-fill-white btn-large" href="#launches">
-                    Latest Launches
-                  </a>
+                <div className="">
+                  <Link
+                    className="axil-btn btn-fill-white btn-large"
+                    to={latestLaunch.id ? `${routes.detail}/${latestLaunch.id}` : routes.home}
+                  >
+                    View Latest Launch <PulseLoader size={10} loading={loading} />
+                  </Link>
+                  <Link
+                    className="ms-3 axil-btn btn-fill-secondary btn-secondary btn-large"
+                    to={nextLaunch.id ? `${routes.detail}/${nextLaunch.id}` : routes.home}
+                  >
+                    Explore Next Launch <PulseLoader size={10} loading={loading} />
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
           <div className="row">
             <div className="col-lg-12 justify-content-center d-flex">
-              <div className="banner-form">
+              <div className="banner-form mt-5">
                 <div className="contact-form-box shadow-box">
                   <h3 className="title">Search Launches by selecting a date</h3>
                   <div className="row">
-                    <div className="col-lg-7">
+                    <div className="col-lg-8 offset-lg-2">
                       <form className="axil-contact-form">
                         <div className="form-group">
-                          <label>Launch Date</label>
+                          <label>Select Launch Date</label>
                           <input
+                            title="date"
                             type="date"
                             className="form-control"
                             name="contact-name"
                             placeholder="John Smith"
                             required
+                            onChange={(e) => setFilter(e.target.value)}
                           />
                         </div>
 
                         <div className="form-group">
                           <button
-                            type="submit"
+                            onClick={() => setFilter("")}
+                            type="reset"
                             className="axil-btn btn-fill-primary btn-fluid btn-primary"
                             name="submit-btn"
                           >
-                            Search Now
+                            Clear Date
                           </button>
                         </div>
-                        <div className="form-group"></div>
                       </form>
-                    </div>
-                    <div className="col-lg-5">
-                      <div className="form-group height-down">
-                        <span>OR</span>
-                        <button
-                          type="submit"
-                          className="axil-btn btn-fill-secondary btn-fluid btn-secondary"
-                          name="submit-btn"
-                        >
-                          Preview next launch
-                        </button>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -100,125 +144,12 @@ export default function Home() {
             <h2 className="title">
               Showing
               <br />
-              Latest Launch
+              {filter ? new Date(filter).toDateString() : "Some Recent Launches"}
             </h2>
             <p></p>
           </div>
 
-          <div className="row row-35">
-            <div className="col-md-6">
-              <div className="project-grid">
-                <div className="thumbnail">
-                  <a href="/demo/react/abstrak/project-details/creative-agency">
-                    <img src="/img/project/project-1.png" alt="icon" />
-                  </a>
-                </div>
-                <div className="content">
-                  <h4 className="title">
-                    <a href="/demo/react/abstrak/project-details/creative-agency">Creative Agency</a>
-                  </h4>
-                  <span className="subtitle">
-                    <span>Branding</span>
-                    <span>Website</span>
-                    <span>App</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="project-grid">
-                <div className="thumbnail">
-                  <a href="/demo/react/abstrak/project-details/digital-marketing">
-                    <img src="/img/project/project-2.png" alt="icon" />
-                  </a>
-                </div>
-                <div className="content">
-                  <h4 className="title">
-                    <a href="/demo/react/abstrak/project-details/digital-marketing">Digital Marketing</a>
-                  </h4>
-                  <span className="subtitle">
-                    <span>Logo</span>
-                    <span>Website</span>
-                    <span>Mobile</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="project-grid">
-                <div className="thumbnail">
-                  <a href="/demo/react/abstrak/project-details/digital-agency">
-                    <img src="/img/project/project-3.png" alt="icon" />
-                  </a>
-                </div>
-                <div className="content">
-                  <h4 className="title">
-                    <a href="/demo/react/abstrak/project-details/digital-agency">Digital Agency</a>
-                  </h4>
-                  <span className="subtitle">
-                    <span>Website</span>
-                    <span>UI/UX</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="project-grid">
-                <div className="thumbnail">
-                  <a href="/demo/react/abstrak/project-details/plan-management">
-                    <img src="/img/project/project-4.png" alt="icon" />
-                  </a>
-                </div>
-                <div className="content">
-                  <h4 className="title">
-                    <a href="/demo/react/abstrak/project-details/plan-management">Plan Management</a>
-                  </h4>
-                  <span className="subtitle">
-                    <span>Branding</span>
-                    <span>Website</span>
-                    <span>Mobile</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="project-grid">
-                <div className="thumbnail">
-                  <a href="/demo/react/abstrak/project-details/social-engagement">
-                    <img src="/img/project/project-5.png" alt="icon" />
-                  </a>
-                </div>
-                <div className="content">
-                  <h4 className="title">
-                    <a href="/demo/react/abstrak/project-details/social-engagement">Social Engagement</a>
-                  </h4>
-                  <span className="subtitle">
-                    <span>Design</span>
-                    <span>Development</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="project-grid">
-                <div className="thumbnail">
-                  <a href="/demo/react/abstrak/project-details/web-application">
-                    <img src="/img/project/project-6.png" alt="icon" />
-                  </a>
-                </div>
-                <div className="content">
-                  <h4 className="title">
-                    <a href="/demo/react/abstrak/project-details/web-application">Web Application</a>
-                  </h4>
-                  <span className="subtitle">
-                    <span>Logo</span>
-                    <span>Webapp</span>
-                    <span>Mobile</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <LaunchCards launches={filtered} loading={loading} />
         </div>
         <ul className="shape-group-7 list-unstyled">
           <li className="shape shape-1">

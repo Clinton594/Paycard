@@ -57,6 +57,9 @@
   --h5: 24px;
   --h6: 20px;
 }
+* {
+  transition: 0.2s all;
+}
 a {
   text-decoration: none;
   transition: all 0.3s ease-in-out;
@@ -6748,6 +6751,7 @@ body.active-dark-mode .my_switcher button span.dark {
   overflow: hidden;
   border-radius: 30px 30px 0 0;
   position: relative;
+  height: 150px;
 }
 .project-grid .thumbnail img {
   border-radius: 30px 30px 0 0;
@@ -6763,8 +6767,14 @@ body.active-dark-mode .my_switcher button span.dark {
 .project-grid .content {
   background-color: #fff;
   background-color: var(--color-white);
-  border-radius: 0 0 30px 30px;
+  height: 150px;
+  cursor: pointer;
+
+  /* border-radius: 0 0 30px 30px; */
   padding: 40px 50px;
+}
+.project-grid .content:hover {
+  box-shadow: rgba(25, 60, 77, 0.4) 0px 25px 20px -20px;
 }
 @media only screen and (max-width: 1199px) {
   .project-grid .content {
@@ -6777,8 +6787,11 @@ body.active-dark-mode .my_switcher button span.dark {
   }
 }
 .project-grid .content .title {
+  font-size: 20px;
   letter-spacing: -0.045em;
   margin-bottom: 10px;
+  font-weight: 900;
+  text-overflow: ellipsis;
 }
 .project-grid .content .title a:hover {
   color: #2522ba;

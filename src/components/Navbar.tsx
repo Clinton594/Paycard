@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import routes from "../constants/routes";
 
 export default function Navbar() {
   return (
@@ -7,11 +9,11 @@ export default function Navbar() {
         <div className="container">
           <div className="header-navbar">
             <div className="header-logo">
-              <a href="/">
+              <Link to={routes.home}>
                 <img className="light-version-logo" src="/img/logo-white.svg" alt="logo" />
                 <img className="dark-version-logo" src="/img/logo-dark.svg" alt="logo" />
                 <img className="sticky-logo" src="/img/logo-white.svg" alt="logo" />
-              </a>
+              </Link>
             </div>
             <div className="header-main-nav">
               <nav className="mainmenu-nav">
