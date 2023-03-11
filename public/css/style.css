@@ -3564,7 +3564,8 @@ input {
 }
 @media only screen and (max-width: 767px) {
   .breadcrumb-banner {
-    padding: 150px 0 20px;
+    padding: 149px 0 0px;
+    background: unset;
   }
 }
 .breadcrumb-banner .section-heading .title {
@@ -3576,6 +3577,7 @@ input {
   .breadcrumb-banner .section-heading .title {
     width: 100%;
     margin-bottom: 30px;
+    color: white;
   }
 }
 .breadcrumb-banner .section-heading p {
@@ -3587,8 +3589,9 @@ input {
   text-overflow: ellipsis;
 }
 @media only screen and (max-width: 991px) {
-  .breadcrumb-banner .section-heading p {
+  .breadcrumb-banner .section-heading {
     width: 100%;
+    color: white;
   }
 }
 @media only screen and (max-width: 991px) {
@@ -5634,15 +5637,7 @@ body.active-dark-mode .my_switcher button span.dark {
     text-align: left;
   }
 }
-.banner.banner-style-4 {
-  background: linear-gradient(90deg, #ecf2f6, rgba(236, 242, 246, 0) 70.31%);
-  padding: 310px 0 100px;
-}
-@media only screen and (min-width: 1200px) and (max-width: 1599px) {
-  .banner.banner-style-4 {
-    padding: 250px 0 100px;
-  }
-}
+
 @media only screen and (max-width: 1199px) {
   .banner.banner-style-4 {
     padding: 250px 0 100px;
@@ -5656,7 +5651,8 @@ body.active-dark-mode .my_switcher button span.dark {
 }
 @media only screen and (max-width: 767px) {
   .banner.banner-style-4 {
-    padding: 150px 0 60px;
+    padding: 0px 0 60px;
+    background-size: contain;
   }
 }
 .banner.banner-style-4 .banner-content {
@@ -5682,6 +5678,18 @@ body.active-dark-mode .my_switcher button span.dark {
   .banner.banner-style-4 .banner-content .title {
     font-size: 70px;
     width: 55%;
+  }
+  .banner.banner-style-4 {
+    background: linear-gradient(90deg, #ecf2f6, rgba(236, 242, 246, 0) 70.31%);
+    height: 100vh;
+    min-height: 100vh;
+    padding: 0;
+    background-position: top right;
+    background-size: contain;
+    background-repeat: repeat-x;
+  }
+  .banner.banner-style-4 > .breadcrumb-banner {
+    padding: 170px 0;
   }
 }
 @media only screen and (max-width: 1199px) {
@@ -5788,7 +5796,8 @@ body.active-dark-mode .my_switcher button span.dark {
     min-height: 100%;
   }
 }
-.banner.banner-style-5:after {
+.banner.banner-style-5:after,
+.banner.banner-style-4:after {
   content: "";
   height: 100%;
   width: 100%;
@@ -10128,9 +10137,6 @@ body.op-modal-open {
   position: relative;
   z-index: 0;
 }
-.main-wrapper[data-variant="detail"] ul.mainmenu > li > a {
-  color: #545252 !important;
-}
 
 .main-wrapper[data-variant="detail"] .axil-header .header-navbar .header-logo .dark-version-logo {
   display: block;
@@ -10138,11 +10144,7 @@ body.op-modal-open {
 .main-wrapper[data-variant="detail"] .axil-header .header-navbar .header-logo .light-version-logo {
   display: none;
 }
-.main-wrapper[data-variant="detail"] .Illustration {
-  overflow: hidden;
-  border-radius: 20px;
-  max-height: 500px;
-}
+
 .Illustration img {
   transition: 0.4s all;
 }
@@ -10155,3 +10157,8 @@ body.op-modal-open {
   display: flex;
   cursor: pointer;
 }
+iframe {
+  border-radius: 30px;
+  opacity: 0.8;
+}
+iframe:hover{opacity: 1;}
