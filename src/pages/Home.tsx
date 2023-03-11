@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
@@ -9,28 +9,17 @@ import Page from "../components/Page";
 import { ILaunch } from "../constants/interface";
 import launch from "../constants/launch";
 import routes from "../constants/routes";
-import { fetch } from "../helpers/ajax";
-import { extractLaunchData } from "../helpers/functions";
+import { extractLaunchData, fetchData, scrollTo } from "../helpers/functions";
 
 export default function Home() {
   const [latestLaunch, setLatest] = useState<ILaunch>(launch);
   const [nextLaunch, setNextLaunch] = useState<ILaunch>(launch);
   const [launches, setLaunches] = useState<ILaunch[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const elementRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState("");
 
-  const fetchData = async (endpoint: string) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await fetch({ endpoint });
-        resolve(response);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  };
-
+  // Handle filtering of launch events
   let filtered = launches;
   if (filter) {
     const date = new Date(filter);
@@ -45,7 +34,10 @@ export default function Home() {
   } else filtered = launches.filter((x) => x.slides.length);
 
   useEffect(() => {
-    !filtered.length && filter && toast.error("No result found");
+    if (!filtered.length && filter) {
+      toast.error("No result found");
+      scrollTo(elementRef);
+    }
   }, [filtered]);
 
   useEffect(() => {
@@ -79,15 +71,15 @@ export default function Home() {
               <div className="banner-content">
                 <h1 className="title mb-1">Paycard Space Launch</h1>
                 <h3 className="text-white">Rendering services to Earth orbit, Moon, Mars and beyond.</h3>
-                <div className="">
+                <div className="action-buttons">
                   <Link
-                    className="axil-btn btn-fill-white btn-large"
+                    className="axil-btn btn-fill-white btn-secondary btn-largee"
                     to={latestLaunch.id ? `${routes.detail}/${latestLaunch.id}` : routes.home}
                   >
                     View Latest Launch <PulseLoader size={10} loading={loading} />
                   </Link>
                   <Link
-                    className="ms-3 axil-btn btn-fill-secondary btn-secondary btn-large"
+                    className="axil-btn btn-fill-secondary btn-secondary btn-large"
                     to={nextLaunch.id ? `${routes.detail}/${nextLaunch.id}` : routes.home}
                   >
                     Explore Next Launch <PulseLoader size={10} loading={loading} />
@@ -124,7 +116,7 @@ export default function Home() {
                             className="axil-btn btn-fill-primary btn-fluid btn-primary"
                             name="submit-btn"
                           >
-                            Clear Date
+                            Clear Filter
                           </button>
                         </div>
                       </form>
@@ -137,7 +129,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="section section-padding-2 bg-color-light">
+      <div className="section section-padding-2 bg-color-light" ref={elementRef}>
         <div className="container">
           <div className="section-heading heading-left mb--40 mt-5">
             <div className="subtitle">Launch Events</div>
@@ -146,7 +138,6 @@ export default function Home() {
               <br />
               {filter ? new Date(filter).toDateString() : "Some Recent Launches"}
             </h2>
-            <p></p>
           </div>
 
           <LaunchCards launches={filtered} loading={loading} />

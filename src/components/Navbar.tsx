@@ -1,8 +1,8 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import routes from "../constants/routes";
 
-export default function Navbar() {
+export default forwardRef(function Navbar() {
   return (
     <header className="header axil-header header-style-4">
       <div className="axil-mainmenu">
@@ -116,54 +116,8 @@ export default function Navbar() {
               </svg>
             </button>
           </div>
-          <div className="mobilemenu-body">
-            <nav className="mainmenu-nav">
-              <ul className="mainmenu">
-                <li className="menu-item-has-children">
-                  <a href="/">
-                    Services
-                    <svg
-                      stroke="currentColor"
-                      fill="currentColor"
-                      strokeWidth="0"
-                      viewBox="0 0 320 512"
-                      height="1em"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"></path>
-                    </svg>
-                  </a>
-
-                  <ul className="axil-submenu">
-                    <li>
-                      <a href="/">FALCON 9</a>
-                    </li>
-                    <li>
-                      <a href="/">FALCON HEAVY</a>
-                    </li>
-                    <li>
-                      <a href="/">DRAGON</a>
-                    </li>
-                    <li>
-                      <a href="/">STARSHIP</a>
-                    </li>
-                    <li>
-                      <a href="/">HUMAN SPACEFLIGHT</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="/">Our Company</a>
-                </li>
-                <li>
-                  <a href="/">Contact Us</a>
-                </li>
-              </ul>
-            </nav>
-          </div>
         </div>
       </div>
     </header>
   );
-}
+});

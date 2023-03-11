@@ -1,5 +1,13 @@
 import React from "react";
 
-export default function ScreenLoader({ children, loading }: { children: React.ReactNode; loading: true | false }) {
-  return loading ? <div className="preloader">{children}</div> : null;
+export default function ScreenLoader({
+  children,
+  loading,
+  float,
+}: {
+  children: React.ReactNode;
+  loading?: true | false;
+  float?: true;
+}) {
+  return loading ? <div className={`preloader ${float ? "relative" : ""}`}>{children}</div> : null;
 }

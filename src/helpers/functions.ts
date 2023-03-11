@@ -1,12 +1,16 @@
+import { ReactElement, RefObject } from "react";
 import { ILaunch } from "../constants/interface";
+import { fetch } from "./ajax";
 
 export function random(length = 7) {
   return (Math.random() + 1).toString(36).substring(length);
 }
 
-export function get_random(list: string[]) {
+export function get_random(list: string[], large = false) {
   return !list.length
-    ? "https://images2.imgbox.com/9b/93/k1hCBIG8_o.png"
+    ? large
+      ? "https://images2.imgbox.com/5b/02/QcxHUb5V_o.png"
+      : "https://images2.imgbox.com/9b/93/k1hCBIG8_o.png"
     : list[Math.floor(Math.random() * list.length)];
 }
 
@@ -37,8 +41,6 @@ export const debounce = <F extends (...args: any) => any>(func: F, waitFor: numb
 
 export const extractLaunchData = (data: any) => {
   const { id, name, date_unix, date_utc, success, failures, details, flight_number } = data;
-  console.log(data.links);
-
   const launchdata: ILaunch = {
     id,
     name,
@@ -49,9 +51,29 @@ export const extractLaunchData = (data: any) => {
     details,
     flight_number,
     wikipedia: data.links.wikipedia,
-    webcast: data.links.webcast,
+    webcast: data.links.youtube_id,
     slides: data.links.flickr.original,
     thumnails: data.links.flickr.original,
   };
   return launchdata;
+};
+
+export const scrollTo = (elementRef: RefObject<HTMLDivElement>) => {
+  if (!elementRef.current) return;
+  const element = elementRef?.current.getBoundingClientRect().top + window.scrollY;
+  window.scroll({
+    top: element,
+    behavior: "smooth",
+  });
+};
+
+export const fetchData = async (endpoint: string) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch({ endpoint });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
