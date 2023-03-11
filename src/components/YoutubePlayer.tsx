@@ -9,7 +9,7 @@ export default function YoutubePlayer({ youtubeId }: { youtubeId: string }) {
             <iframe
               width="80%"
               height="450px"
-              className="rounded-lg"
+              className="zoomable"
               src={`https://www.youtube.com/embed/${youtubeId}`}
               title="YouTube video player"
               frameBorder="0"

@@ -3,6 +3,7 @@ import { PuffLoader } from "react-spinners";
 import { ToastContainer } from "react-toastify";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import "animate.css";
 
 import ScreenLoader from "./components/ScreenLoader";
 import routes from "./constants/routes";

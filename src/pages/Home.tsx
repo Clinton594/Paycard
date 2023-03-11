@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import ReactTyped from "react-typed";
 import Footer from "../components/Footer";
 import LaunchCards from "../components/LaunchCards";
 import Navbar from "../components/Navbar";
@@ -67,11 +68,20 @@ export default function Home() {
       <div className="banner banner-style-5">
         <div className="container">
           <div className="row">
-            <div className="col-lg-6 col-xl-7">
+            <div className="col-lg-6 col-xl-8">
               <div className="banner-content">
-                <h1 className="title mb-1">Paycard Space Launch</h1>
-                <h3 className="text-white">Rendering services to Earth orbit, Moon, Mars and beyond.</h3>
-                <div className="action-buttons">
+                <h1 className="title mb-1 animate__animated animate__fadeInUp">Paycard SpaceX Launch</h1>
+                <h3 className="text-white h-10px animate__animated animate__fadeInDown">
+                  <ReactTyped
+                    strings={[
+                      "Rendering services to Earth orbit, Moon, Mars and beyond.",
+                      "Making life multiplanetary.",
+                    ]}
+                    loop
+                    typeSpeed={40}
+                  />
+                </h3>
+                <div className="action-buttons animate__animated animate__fadeInLeft">
                   <Link
                     className="axil-btn btn-fill-white btn-secondary btn-largee"
                     to={latestLaunch.id ? `${routes.detail}/${latestLaunch.id}` : routes.home}
@@ -91,7 +101,7 @@ export default function Home() {
           <div className="row">
             <div className="col-lg-12 justify-content-center d-flex">
               <div className="banner-form mt-5">
-                <div className="contact-form-box shadow-box">
+                <div className="contact-form-box shadow-box animate__animated animate__fadeInUp">
                   <h3 className="title">Search Launches by selecting a date</h3>
                   <div className="row">
                     <div className="col-lg-8 offset-lg-2">

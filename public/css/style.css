@@ -556,6 +556,14 @@ input {
   -webkit-animation-duration: 0.75s;
   animation-duration: 0.75s;
 }
+.h-10px {
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
 @-webkit-keyframes bounce {
   0%,
   20%,
@@ -10161,4 +10169,6 @@ iframe {
   border-radius: 30px;
   opacity: 0.8;
 }
-iframe:hover{opacity: 1;}
+iframe:hover {
+  opacity: 1;
+}

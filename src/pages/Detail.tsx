@@ -55,15 +55,15 @@ export default function Detail() {
                 <div className="row align-items-center">
                   <div className="col-lg-6 offset-lg-1">
                     <div className="section-heading heading-left">
-                      <h1 className="title h2">{content.name}</h1>
-                      <span>
+                      <h1 className="title h2 animate__animated animate__backInDown">{content.name}</h1>
+                      <span className="animate__animated animate__fadeInUp">
                         A quick view of {content.name} launch event and the problem solving processes underwent with the
                         awesome team and crew members on the {date}.
                       </span>
                       <button
                         onClick={() => scrollTo(youtubePlayer)}
                         type="button"
-                        className="axil-btn btn-fill-primary mt-3"
+                        className="axil-btn btn-fill-primary mt-3 animate__animated animate__rubberBand"
                       >
                         Watch Now
                       </button>
